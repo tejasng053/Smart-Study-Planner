@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Study Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🚀 Smart Study Planner</h1>
+                <div class="header-controls">
+                    <button id="themeToggle" class="btn btn--outline theme-toggle" aria-label="Toggle theme">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Weather Widget -->
+        <section class="weather-section">
+            <div class="weather-container">
+                <div class="current-weather">
+                    <div class="weather-info">
+                        <span class="weather-temp">26°C</span>
+                        <span class="weather-condition">☁️ Cloudy</span>
+                        <span class="rain-chance">Rain: 60%</span>
+                    </div>
+                </div>
+                <div class="hourly-forecast">
+                    <div class="forecast-item">
+                        <span class="time">2PM</span>
+                        <span class="icon">☀️</span>
+                        <span class="temp">26°</span>
+                    </div>
+                    <div class="forecast-item">
+                        <span class="time">3PM</span>
+                        <span class="icon">🌧️</span>
+                        <span class="temp">24°</span>
+                    </div>
+                    <div class="forecast-item">
+                        <span class="time">4PM</span>
+                        <span class="icon">🌧️</span>
+                        <span class="temp">23°</span>
+                    </div>
+                    <div class="forecast-item">
+                        <span class="time">5PM</span>
+                        <span class="icon">⛅</span>
+                        <span class="temp">25°</span>
+                    </div>
+                    <div class="forecast-item">
+                        <span class="time">6PM</span>
+                        <span class="icon">⛅</span>
+                        <span class="temp">24°</span>
+                    </div>
+                    <div class="forecast-item">
+                        <span class="time">7PM</span>
+                        <span class="icon">🌙</span>
+                        <span class="temp">22°</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Task Form -->
+        <section class="add-task-section">
+            <div class="card">
+                <div class="card__body">
+                    <h3>Add New Task</h3>
+                    <form id="taskForm" class="task-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="taskName">Task Name</label>
+                                <input type="text" id="taskName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="taskSubject">Subject</label>
+                                <select id="taskSubject" class="form-control" required>
+                                    <option value="">Select Subject</option>
+                                    <option value="Machine Learning">Machine Learning</option>
+                                    <option value="Computer Networks">Computer Networks</option>
+                                    <option value="Database Systems">Database Systems</option>
+                                    <option value="Software Engineering">Software Engineering</option>
+                                    <option value="Data Structures">Data Structures</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="taskDeadline">Deadline</label>
+                                <input type="date" id="taskDeadline" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="taskPriority">Priority</label>
+                                <select id="taskPriority" class="form-control" required>
+                                    <option value="">Select Priority</option>
+                                    <option value="High">High</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn--primary">+ Add Task</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search and Filter -->
+        <section class="search-filter-section">
+            <div class="card">
+                <div class="card__body">
+                    <div class="search-filter-container">
+                        <div class="search-group">
+                            <label class="form-label" for="searchTasks">Search Tasks</label>
+                            <input type="text" id="searchTasks" class="form-control"
+                                placeholder="Search by name or subject...">
+                        </div>
+                        <div class="filter-group">
+                            <div class="filter-item">
+                                <label class="form-label" for="filterPriority">Priority</label>
+                                <select id="filterPriority" class="form-control">
+                                    <option value="">All Priorities</option>
+                                    <option value="High">High</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label class="form-label" for="filterStatus">Status</label>
+                                <select id="filterStatus" class="form-control">
+                                    <option value="">All Tasks</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                            <div class="filter-item">
+                                <label class="form-label" for="filterDeadline">Deadline</label>
+                                <select id="filterDeadline" class="form-control">
+                                    <option value="">All Deadlines</option>
+                                    <option value="today">Today</option>
+                                    <option value="week">This Week</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tasks List -->
+        <section class="tasks-section">
+            <div class="card">
+                <div class="card__header">
+                    <h3>Tasks List</h3>
+                </div>
+                <div class="card__body">
+                    <div id="tasksList" class="tasks-list">
+                        <!-- Tasks will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress and Productivity -->
+        <section class="progress-section">
+            <div class="progress-container">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Progress</h3>
+                        <div class="progress-wrapper">
+                            <div class="progress-bar">
+                                <div id="progressFill" class="progress-fill"></div>
+                            </div>
+                            <span id="progressText" class="progress-text">0% completed</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Productivity Score</h3>
+                        <div class="productivity-score">
+                            <span id="productivityScore" class="score">🔥 92/100</span>
+                            <p id="productivityMessage" class="score-message">Excellent work!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ML Suggestions -->
+        <section class="suggestions-section">
+            <div class="card">
+                <div class="card__body">
+                    <h3>Smart Suggestions</h3>
+                    <div id="suggestions" class="suggestions-list">
+                        <!-- AI suggestions will be added here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistics Charts -->
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="card chart-card">
+                    <div class="card__body">
+                        <h3>Tasks by Subject</h3>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="subjectChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card chart-card">
+                    <div class="card__body">
+                        <h3>Tasks by Priority</h3>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="priorityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calendar View -->
+        <section class="calendar-section">
+            <div class="card">
+                <div class="card__header">
+                    <h3>📅 Calendar View</h3>
+                </div>
+                <div class="card__body">
+                    <div id="calendar" class="calendar-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Reminder -->
+        <section class="reminder-section">
+            <div class="card">
+                <div class="card__body">
+                    <div class="reminder-container">
+                        <h4>⏰ Next Reminder</h4>
+                        <p id="nextReminder" class="reminder-text">No upcoming tasks</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Edit Task Modal -->
+        <div id="editModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Edit Task</h3>
+                    <button id="closeModal" class="btn btn--outline">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="editTaskForm">
+                        <div class="form-group">
+                            <label class="form-label" for="editTaskName">Task Name</label>
+                            <input type="text" id="editTaskName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editTaskSubject">Subject</label>
+                            <select id="editTaskSubject" class="form-control" required>
+                                <option value="Machine Learning">Machine Learning</option>
+                                <option value="Computer Networks">Computer Networks</option>
+                                <option value="Database Systems">Database Systems</option>
+                                <option value="Software Engineering">Software Engineering</option>
+                                <option value="Data Structures">Data Structures</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editTaskDeadline">Deadline</label>
+                            <input type="date" id="editTaskDeadline" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editTaskPriority">Priority</label>
+                            <select id="editTaskPriority" class="form-control" required>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" id="cancelEdit" class="btn btn--outline">Cancel</button>
+                            <button type="submit" class="btn btn--primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
